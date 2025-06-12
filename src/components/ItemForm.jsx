@@ -62,79 +62,83 @@ function ItemForm({ setItems, setShowForm }) {
   }
 
   return (
-    <form className="item-form" onSubmit={handleSubmit}>
-      <select
-        value={type}
-        onChange={(e) => setType(e.target.value)}
-        style={{
-          ...(showErrors &&
-            !type && {
-              border: "4px solid red",
-            }),
-        }}
-      >
-        <option value="" disabled>
-          Type
-        </option>
-        <optgroup label="Assets">
-          {ASSETS.map(({ name }) => (
-            <option key={name} value={name}>
-              {name}
+    <div className="flex justify-center w-full bg-[#252728] p-4 rounded-2xl mb-4 mt-4 ">
+      <form className="w-full max-w-md space-y-4" onSubmit={handleSubmit}>
+        <div class="flex flex-col gap-4">
+          <input
+            className="w-full p-2 rounded-2xl"
+            type="text"
+            placeholder="Name"
+            value={name}
+            maxLength="30"
+            onChange={(e) => setName(e.target.value)}
+            disabled={isUploading}
+            style={{
+              ...(showErrors && {
+                border: "4px solid #FA4A4A",
+              }),
+              appearance: "textfield",
+              MozAppearance: "textfield",
+              WebkitAppearance: "none",
+            }}
+          />
+          <div className="text-right text-sm text-red">{30 - name.length}</div>
+          <input
+            className="w-full p-2 rounded-2xl"
+            type="texts"
+            maxLength="30"
+            placeholder="Value"
+            value={value}
+            onChange={(e) => {
+              const raw = e.target.value.replace(/[^\d]/g, "");
+              setValue(raw ? "$" + Number(raw).toLocaleString() : "");
+            }}
+            disabled={isUploading}
+            style={{
+              ...(showErrors &&
+                isNaN(parseFloat(value.replace(/[^0-9.]/g, ""))) && {
+                  border: "4px solid #FA4A4A",
+                }),
+              appearance: "textfield",
+              MozAppearance: "textfield",
+              WebkitAppearance: "none",
+            }}
+          />
+          <select
+            className="bg-[#252728] w-full p-2 rounded-2xl"
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            style={{
+              ...(showErrors &&
+                !type && {
+                  border: "4px solid #FA4A4A",
+                }),
+            }}
+          >
+            <option value="" disabled>
+              Type
             </option>
-          ))}
-        </optgroup>
-        <optgroup label="Liabilities">
-          {LIABILITIES.map(({ name }) => (
-            <option key={name} value={name}>
-              {name}
-            </option>
-          ))}
-        </optgroup>
-      </select>
-
-      <input
-        type="text"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        disabled={isUploading}
-        style={{
-          ...(showErrors && {
-            border: "4px solid red",
-          }),
-          appearance: "textfield",
-          MozAppearance: "textfield",
-          WebkitAppearance: "none",
-        }}
-      />
-
-      <input
-        type="text"
-        placeholder="Value"
-        value={value}
-        onChange={(e) => {
-          const raw = e.target.value.replace(/[^\d]/g, "");
-          setValue(raw ? "$" + Number(raw).toLocaleString() : "");
-        }}
-        disabled={isUploading}
-        style={{
-          ...(showErrors &&
-            isNaN(parseFloat(value.replace(/[^0-9.]/g, ""))) && {
-              border: "4px solid red",
-            }),
-          appearance: "textfield",
-          MozAppearance: "textfield",
-          WebkitAppearance: "none",
-        }}
-      />
-
-      {/* Submit Button */}
-      <div>
-        <button type="submit" className="btn" disabled={isUploading}>
-          Submit
-        </button>
-      </div>
-    </form>
+            <optgroup label="Assets">
+              {ASSETS.map(({ name }) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
+            </optgroup>
+            <optgroup label="Liabilities">
+              {LIABILITIES.map(({ name }) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
+            </optgroup>
+          </select>
+          <button type="submit" className="btn-primary" disabled={isUploading}>
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
 
