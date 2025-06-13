@@ -1,8 +1,9 @@
-function Results({ showForm, setShowForm }) {
+function Results() {
   //TEMP
   let totalAssets = "5,000";
   let totalLosses = "2,000";
   let totalEquity = "1,100";
+
   return (
     <>
       <div className="flex justify-center columns-3 gap-5 m-4">

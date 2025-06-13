@@ -1,4 +1,4 @@
-import DeleteButton from "./DeleteButton";
+import DeleteRecordButton from "./DeleteRecordButton";
 function Item({ item }) {
   return (
     <>
@@ -10,7 +10,7 @@ function Item({ item }) {
           $ {item.value.toLocaleString()}
         </span>
         <span className="justify-self-center">
-          <DeleteButton />
+          <DeleteRecordButton />
         </span>
       </div>
     </>

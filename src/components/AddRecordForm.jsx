@@ -18,7 +18,7 @@ const LIABILITIES = [
   { name: "Other" },
 ];
 
-function ItemForm({ setItems, setShowForm }) {
+function AddRecordForm({ setItems, setShowForm }) {
   const [name, setName] = useState("");
   const [value, setValue] = useState("");
   const [type, setType] = useState("");
@@ -26,21 +26,23 @@ function ItemForm({ setItems, setShowForm }) {
   const [showErrors, setShowErrors] = useState(false);
 
   async function handleSubmit(e) {
+    // Prevent page auto reload
     e.preventDefault();
 
     const numericValue = parseFloat(value.replace(/[^0-9.]/g, ""));
 
+    // If any field is missing or invalid
     if (!name || isNaN(numericValue) || !type) {
       setShowErrors(true);
       return;
     }
-
+    // Show Loader
     setIsUploading(true);
 
     const { data, error } = await supabase
       .from("items")
       .insert([{ name, type, value: numericValue }])
-      .select();
+      .select(); // After inserting, give me back the full inserted row(s)
 
     setIsUploading(false);
 
@@ -142,4 +144,4 @@ function ItemForm({ setItems, setShowForm }) {
   );
 }
 
-export default ItemForm;
+export default AddRecordForm;
